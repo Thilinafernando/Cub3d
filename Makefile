@@ -16,14 +16,17 @@ MLXDIR = mlx/
 MLX = $(MLXDIR)libmlx.a
 
 mlx:
-	@if [ ! -d "$(MLXDIR)" ]; then \
-		echo "Cloning MLX..."; \
-		git clone https://github.com/42Paris/minilibx-linux.git mlx; \
-		rm -rf mlx/.git; \
-		echo "Removed .git from mlx/"; \
+	@if [ ! -f "$(MLX)" ]; then \
+		if [ ! -d "$(MLXDIR)" ]; then \
+			echo "Cloning MLX..."; \
+			git clone https://github.com/42Paris/minilibx-linux.git mlx; \
+			rm -rf mlx/.git; \
+			echo "Removed .git from mlx/"; \
+		fi; \
+		$(MAKE) -C $(MLXDIR); \
+	else \
+		echo "MLX already built, skipping..."; \
 	fi
-	@$(MAKE) -C $(MLXDIR)
-#	@clear
 
 GNL = get_next_line/
 GNL_SRC = get_next_line.c get_next_line_utils.c
@@ -35,12 +38,12 @@ UTILSDIR = Utils/
 UTILS = Utils/
 
 PARSDIR = parssing/
-PRC = parssing/
+PRC = parssing/check_info.c
 
 BONUSDIR = bonus/
 BONUS = bonus/
 
-ALL_SRC = $(PRC) $(EXEC) $(UTILS) $(RED)
+ALL_SRC = $(PRC) $(EXEC) $(UTILS)
 
 OBJ_DIR = obj
 
@@ -53,7 +56,7 @@ all: $(NAME)
 bonus: $(NAME_BONUS)
 
 $(NAME): $(LIBFT) mlx $(OBJECTS) $(GNL_OBJECTS) $(PRINT)
-	@tput blink; echo -ne "Compiling Cub3d\r"; tput sgr0; sleep 1; echo "Cub3d ready to be played!"
+	@bash -c 'tput blink; echo -ne "Compiling Cub3d     \r"; tput sgr0; sleep 0.5; echo "Cub3d is ready to be played!     "'
 	@$(CC) $(CFLAGS) $(OBJECTS) $(GNL_OBJECTS) -o $(NAME) $(MLX_FLAGS) $(LIBFT) $(PRINT)
 
 #Bonus
@@ -62,7 +65,7 @@ $(NAME_BONUS): $(LIBFT) mlx $(OBJECT_BONUS)  $(GNL_OBJECTS) $(PRINT)
 
 #Bonus comp
 $(OBJ_DIR)/%.o: $(BONUSDIR)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@echo "Compiling $< ..."
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
@@ -72,17 +75,17 @@ $(LIBFT): $(LIBFTDIR)
 	@$(MAKE) -C $(LIBFTDIR) --quiet
 
 $(OBJ_DIR)/%.o: $(PARSDIR)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@echo "Compiling $< ..."
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 $(OBJ_DIR)/%.o: $(EXECDIR)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@echo "Compiling $< ..."
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 $(OBJ_DIR)/%.o: $(UTILSDIR)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@echo "Compiling $< ..."
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
@@ -92,7 +95,7 @@ $(PRINT): $(PRINTDIR)
 
 # GNL
 $(OBJ_DIR)/%.o: $(GNL)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 clean:
@@ -112,11 +115,10 @@ fclean:
 re: fclean all
 
 clean_mlx:
-	@tput blink; echo -ne "Cleaning MLX\r"; tput sgr0; sleep 1; echo "Cleaning MLX"
+	@bash -c 'tput blink; echo -ne "Cleaning MLX     \r"; tput sgr0; sleep 2; echo "MLX Gone!     "'
 	@rm -rf $(MLXDIR)
 
 vall: all clean
 		valgrind --track-origins=yes -q --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes
 
 .PHONY: all bonus clean fclean re clean_mlx mlx
-
