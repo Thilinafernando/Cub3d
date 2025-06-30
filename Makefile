@@ -53,7 +53,7 @@ all: $(NAME)
 bonus: $(NAME_BONUS)
 
 $(NAME): $(LIBFT) mlx $(OBJECTS) $(GNL_OBJECTS) $(PRINT)
-	@echo "\033[5mCUB3D Ready to be Played!\033[0m"
+	@tput blink; echo -ne "Compiling Cub3d\r"; tput sgr0; sleep 1; echo "Cub3d ready to be played!"
 	@$(CC) $(CFLAGS) $(OBJECTS) $(GNL_OBJECTS) -o $(NAME) $(MLX_FLAGS) $(LIBFT) $(PRINT)
 
 #Bonus
@@ -112,7 +112,7 @@ fclean:
 re: fclean all
 
 clean_mlx:
-	@echo "\033[5mCleaning MLX...\033[0m"
+	@tput blink; echo -ne "Cleaning MLX\r"; tput sgr0; sleep 1; echo "Cleaning MLX"
 	@rm -rf $(MLXDIR)
 
 vall: all clean
