@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 19:00:08 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/06/30 19:52:49 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/01 01:09:23 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_info
 {
 	char	**file;
 	char	**map;
+	int		count;
+	int		max;
 	char	**tmp;
 	char	*north_w;
 	char	*south_w;
