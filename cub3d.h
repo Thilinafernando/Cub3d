@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 19:00:08 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/01 01:09:23 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:08:16 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ typedef struct s_info
 	int		count;
 	int		max;
 	char	**tmp;
-	char	*north_w;
-	char	*south_w;
-	char	*east_w;
-	char	*west_w;
+	int		player_x;
+	int		player_y;
+	int		flood_flag;
+	char	*no;
+	char	*so;
+	char	*ea;
+	char	*we;
 	int		rgb_f;
 	int		rgb_c;
 } t_info;

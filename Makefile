@@ -119,6 +119,6 @@ clean_mlx:
 	@rm -rf $(MLXDIR)
 
 vall: all clean
-		valgrind --track-origins=yes -q --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes
+		valgrind --track-origins=yes -q --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes ./cub3d map.cub
 
 .PHONY: all bonus clean fclean re clean_mlx mlx
