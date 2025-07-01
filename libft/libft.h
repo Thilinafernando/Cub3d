@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:03:33 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/06/30 15:18:27 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:20:01 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_list
 	struct s_list	*next;
 }			t_list;
 
+int		ft_isspace(char c);
 char	**matrix_tmp(char **matrix);
 int		exisit(char **matrix, char *arg, char character_at_end);
 void	process_join(char **arg1, char **arg2, char ***new);

@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:59:05 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/01 23:24:12 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:28:29 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,8 +245,10 @@ int	find_player_pos(char **matrix, t_info *info)
 			}
 		}
 	}
-	if (flag != 1)
-		return (-1);
+	if (flag > 1)
+		return (ft_printf(2, "Error: %d num of player positions in map.\n", flag));
+	if (flag < 1)
+		return (ft_printf(2, "Error: Map does not have a player starting position.\n"));
 	return (0);
 }
 
@@ -279,8 +281,42 @@ void	flood_fill(int x, int y, t_info *info)
 	return ;
 }
 
+int	check_playable(t_info *info)
+{
+	if (find_player_pos(info->map, info))
+		return (-1);
+	if (info->map[info->player_y][info->player_x + 1] != '0' && info->map[info->player_y + 1][info->player_x] != '0'
+		&& info->map[info->player_y][info->player_x - 1] != '0' && info->map[info->player_y - 1][info->player_x] != '0')
+		return (ft_printf(2, "Error: Map does not contain any player accessable room.\n"));
+	return (0);
+}
+
+int	check_characters(t_info *info)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (info->map[++i])
+	{
+		j = -1;
+		while (info->map[i][++j])
+		{
+			if (info->map[i][j] != '\n' && info->map[i][j] != '0' && info->map[i][j] != '1'
+				&& info->map[i][j] != 'W' && info->map[i][j] != 'N' && info->map[i][j] != 'E'
+				&& info->map[i][j] != 'S' && ft_isspace(info->map[i][j]) == 0)
+				return (ft_printf(2, "Error: '%c' is not a valid character for the map.\n", info->map[i][j]));
+		}
+	}
+	return (0);
+}
+
 int		validate_map(t_info *info)
 {
+	if (check_playable(info))
+		return (-1);
+	if (check_characters(info))
+		return (-1);
 	if (fill_tmp(info))
 		return (-1);
 	flood_fill(0, 0, info);
@@ -333,6 +369,34 @@ void	init_struct(t_info *info)
 	info->rgb_f = -42;
 }
 
+int	rgb_convertion(t_info * info, char *str, int i, int j)
+{
+	char	*rgb;
+	char	**tmp;
+	int		red;
+	int		green;
+	int		blue;
+
+	rgb = ft_mydup(info->file[i] + (j));
+	if (!rgb)
+		return (ft_printf(2, "Error: Malloc failed.\n"));
+	tmp = ft_split(rgb, ',');
+	if (!tmp)
+		return (ft_printf(2, "Error: Malloc failed.\n"));
+	free(rgb);
+	red = ft_atoi(tmp[0]);
+	green = ft_atoi(tmp[1]);
+	blue = ft_atoi(tmp[2]);
+	free_mat(tmp);
+	if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255)
+		return (ft_printf(2, "Error: Invalid RGB values.\n"));
+	if (!strncmp(str, "F", 1))
+		info->rgb_f = (red << 16) | (green << 8) | blue;
+	if (!strncmp(str, "C", 1))
+		info->rgb_c = (red << 16) | (green << 8) | blue;
+	return (0);
+}
+
 int	save_path(char *str, t_info *info, int i, int j)
 {
 	char	*path;
@@ -367,7 +431,7 @@ int	paths(t_info *info)
 	while (info->file[++i])
 	{
 		if (!ft_strncmp(info->file[i], "NO", 2) || !ft_strncmp(info->file[i], "SO", 2) || !ft_strncmp(info->file[i], "WE", 2)
-			|| !ft_strncmp(info->file[i], "EA", 2))
+			|| !ft_strncmp(info->file[i], "EA", 2) || !ft_strncmp(info->file[i], "F", 1) || !ft_strncmp(info->file[i], "C", 1))
 		{
 			j = 1;
 			ft_strlcpy(str, info->file[i], 3);
@@ -379,14 +443,15 @@ int	paths(t_info *info)
 					break;
 			}
 			if (info->file[i][j] == '\0')
-				return (ft_printf(2, "Error: %s texture not included in the file.\n", str));
-			if (save_path(str, info, i, j))
+				return (ft_printf(2, "Error: %s info not included in the file.\n", str));
+			if (ft_strncmp(info->file[i], "F", 1) && ft_strncmp(info->file[i], "C", 1) && save_path(str, info, i, j))
+				return (-1);
+			else if ((!ft_strncmp(info->file[i], "F", 1) || !ft_strncmp(info->file[i], "C", 1)) && rgb_convertion(info, str, i, j))
 				return (-1);
 		}
 	}
 	if (!info->ea || !info->no || !info->so || !info->we)
 		return (ft_printf(2, "Error: Not all textures are included in the file.\n"));
-	ft_printf(1, "ITS A OKAY.\n");
 	return (0);
 }
 

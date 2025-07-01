@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:54:31 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/05/30 16:07:57 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:19:35 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ long	ft_atoi(const char *str)
 		i++;
 	}
 	return (result * negative);
+}
+
+int	ft_isspace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
 }
 
 /* int main(void)
