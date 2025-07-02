@@ -38,7 +38,7 @@ UTILSDIR = Utils/
 UTILS = Utils/
 
 PARSDIR = parssing/
-PRC = parssing/check_info.c
+PRC = parssing/parsing.c parsing_utils.c parsing_utils1.c parsing_utils2.c parsing_utils3.c \
 
 BONUSDIR = bonus/
 BONUS = bonus/

@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 19:00:08 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/01 22:08:16 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/02 03:15:17 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,27 @@ typedef struct s_info
 } t_info;
 
 //parssing
-
+bool	extention_check(char *str);
+int		fill_file(char *map, t_info *info);
+int		fill_map(t_info *info);
+int		validate_map(t_info *info);
+int		paths_check(t_info *info, int i, int j, char *str);
+int		paths(t_info *info);
+int		count_lines(char *map);
+bool	map_only(char *str);
+char	*ft_mapdup(const char *s, t_info *info);
+char	*x_fill(t_info *info);
+int		fill_tmp(t_info *info);
+void	print_matrix(char **matrix);
+int		find_player_pos(char **matrix, t_info *info);
+bool	verify_char(char c);
+void	flood_fill(int x, int y, t_info *info);
+int		check_playable(t_info *info);
+int		check_characters(t_info *info);
+char	*ft_mydup(const char *s);
+void	init_struct(t_info *info);
+int		rgb_convertion(t_info * info, char *str, int i, int j);
+int		save_path(char *str, t_info *info, int i, int j);
 
 
 #endif
