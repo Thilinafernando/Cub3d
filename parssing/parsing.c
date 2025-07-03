@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:59:05 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/02 03:16:10 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:30:19 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,11 @@ int	validate_map(t_info *info)
 		return (-1);
 	if (fill_tmp(info))
 		return (-1);
+	if (check_spaces(info))
+		return (-1);
 	flood_fill(0, 0, info);
 	if (info->flood_flag == -42)
-		return(ft_printf(2, "Error: Map not closed.\n"));
+		return (ft_printf(2, "Error: Map not closed.\n"));
 	print_matrix(info->tmp);
 	free_mat(info->tmp);
 	info->tmp = NULL;
@@ -110,7 +112,7 @@ int	main(int ac, char **av)
 
 	init_struct(&info);
 	if (ac != 2)
-		return (ft_printf(2, "Error: Invalid number of arguments for program.\n"), 1);
+		return (ft_printf(2, "Error: Invalid number of arguments.\n"), 1);
 	if (!extention_check(av[1]))
 		return (1);
 	if (fill_file(av[1], &info))

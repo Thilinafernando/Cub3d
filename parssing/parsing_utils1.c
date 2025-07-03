@@ -6,13 +6,13 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 03:01:07 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/02 03:02:39 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:42:54 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-int		count_lines(char *map)
+int	count_lines(char *map)
 {
 	int		fd;
 	char	*tmp;
@@ -40,10 +40,11 @@ bool	map_only(char *str)
 
 	i = 0;
 	flag = 0;
-	if (!ft_strncmp(str, "NO", 2) || !ft_strncmp(str, "SO", 2) || !ft_strncmp(str, "WE", 2)
-			|| !ft_strncmp(str, "EA", 2) || !ft_strncmp(str, "F", 1) || !ft_strncmp(str, "C", 1)
-			|| str[0] == '\n' || !str)
-			return (false);
+	if (!ft_strncmp(str, "NO", 2) || !ft_strncmp(str, "SO", 2)
+		|| !ft_strncmp(str, "WE", 2) || !ft_strncmp(str, "EA", 2)
+		|| !ft_strncmp(str, "F", 1) || !ft_strncmp(str, "C", 1)
+		|| str[0] == '\n' || !str)
+		return (false);
 	while (str[i] != '\0')
 	{
 		if ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
@@ -80,10 +81,10 @@ char	*ft_mapdup(const char *s, t_info *info)
 				str[i + 1] = 'X';
 			str[i + 1] = '\n';
 			str[i + 2] = '\0';
-			break;
+			break ;
 		}
 		else if ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
-			str[i + 1] = 'X';
+			str[i + 1] = 'L';
 		else
 			str[i + 1] = s[i];
 	}
@@ -92,8 +93,8 @@ char	*ft_mapdup(const char *s, t_info *info)
 
 char	*x_fill(t_info *info)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	*str;
 
 	i = -1;

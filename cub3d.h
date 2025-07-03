@@ -6,7 +6,7 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 19:00:08 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/02 03:15:17 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:54:07 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <math.h>
 # include <stdbool.h>
 
-
 typedef struct s_info
 {
 	char	**file;
@@ -47,14 +46,16 @@ typedef struct s_info
 	char	*we;
 	int		rgb_f;
 	int		rgb_c;
-} t_info;
+}	t_info;
 
 //parssing
 bool	extention_check(char *str);
+int		paths_conditions(t_info *info, int i, int j, char *str);
 int		fill_file(char *map, t_info *info);
 int		fill_map(t_info *info);
 int		validate_map(t_info *info);
-int		paths_check(t_info *info, int i, int j, char *str);
+int		paths_check(t_info *info, int i, char *str);
+int		check_spaces(t_info *info);
 int		paths(t_info *info);
 int		count_lines(char *map);
 bool	map_only(char *str);
@@ -69,8 +70,8 @@ int		check_playable(t_info *info);
 int		check_characters(t_info *info);
 char	*ft_mydup(const char *s);
 void	init_struct(t_info *info);
-int		rgb_convertion(t_info * info, char *str, int i, int j);
+int		rgb_convertion(t_info *info, char *str, int i, int j);
 int		save_path(char *str, t_info *info, int i, int j);
-
+void	free_all(t_info *info);
 
 #endif

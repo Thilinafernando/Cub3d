@@ -6,18 +6,21 @@
 /*   By: tkurukul <thilinaetoro4575@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 03:02:53 by tkurukul          #+#    #+#             */
-/*   Updated: 2025/07/02 03:04:03 by tkurukul         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:49:57 by tkurukul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-void print_matrix(char **matrix)
+void	print_matrix(char **matrix)
 {
-	int i = 0;
+	int	i;
+	int	j;
+
+	i = 0;
 	while (matrix[i] != NULL)
 	{
-		int j = 0;
+		j = 0;
 		while (matrix[i][j] != '\0')
 		{
 			putchar(matrix[i][j]);
@@ -50,9 +53,9 @@ int	find_player_pos(char **matrix, t_info *info)
 		}
 	}
 	if (flag > 1)
-		return (ft_printf(2, "Error: %d num of player positions in map.\n", flag));
+		return (ft_printf(2, "Error: '%d' player positions in map.\n", flag));
 	if (flag < 1)
-		return (ft_printf(2, "Error: Map does not have a player starting position.\n"));
+		return (ft_printf(2, "Error: No player starting position.\n"));
 	return (0);
 }
 
@@ -67,7 +70,8 @@ void	flood_fill(int x, int y, t_info *info)
 {
 	if (y < 0 || x < 0 || !info->tmp[y] || x >= (int)ft_strlen(info->tmp[y]))
 		return ;
-	if (info->tmp[y][x] == '0' || info->tmp[y][x] == 'W' || info->tmp[y][x] == 'E'
+	if (info->tmp[y][x] == '0' || info->tmp[y][x] == 'W'
+		|| info->tmp[y][x] == 'E'
 		|| info->tmp[y][x] == 'S' || info->tmp[y][x] == 'N')
 	{
 		info->flood_flag = -42;
@@ -89,8 +93,11 @@ int	check_playable(t_info *info)
 {
 	if (find_player_pos(info->map, info))
 		return (-1);
-	if (info->map[info->player_y][info->player_x + 1] != '0' && info->map[info->player_y + 1][info->player_x] != '0'
-		&& info->map[info->player_y][info->player_x - 1] != '0' && info->map[info->player_y - 1][info->player_x] != '0')
-		return (ft_printf(2, "Error: Map does not contain any player accessable room.\n"));
+	if (info->map[info->player_y][info->player_x + 1] != '0'
+		&& info->map[info->player_y + 1][info->player_x] != '0'
+		&& info->map[info->player_y][info->player_x - 1] != '0'
+		&& info->map[info->player_y - 1][info->player_x] != '0')
+		return (ft_printf(2, "Error: Map does not contain\
+			any player accessable room.\n"));
 	return (0);
 }
